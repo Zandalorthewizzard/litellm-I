@@ -1,0 +1,20 @@
+name: Sync Fork
+on:
+  schedule:
+    - cron: '0 0 * * 0'  # Еженедельно по воскресеньям в 00:00 UTC
+  workflow_dispatch:  # Для ручного запуска в Actions
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: main
+      - name: Fork Sync
+        uses: mukeshkumar085/fork-sync-action@v1
+        with:
+          upstream: BerriAI/litellm
+          upstream_branch: main
+          target_branch: main
+          force: false  # Не форсировать мерж, если конфликты
